@@ -125,21 +125,25 @@ const SubHeader: React.FC = () => {
   // //push into data int url 
   useEffect(() => {
     const params = new URLSearchParams();
-    if (userPrefernces.age) params.append("age", userPrefernces.age);
+  
+    if (userPrefernces.age) params.append("age", userPrefernces.age.toString());
     if (userPrefernces.gender) params.append("gender", userPrefernces.gender);
-    if (userPrefernces.from) params.append("from", userPrefernces.from);
-    if (userPrefernces.to) params.append("to", (userPrefernces.to));
-
+    
+    // Convert the Date objects to a string format (ISO or custom format)
+    if (userPrefernces.from) params.append("from", userPrefernces.from.toISOString());
+    if (userPrefernces.to) params.append("to", userPrefernces.to.toISOString());
+  
     // Dynamically update the URL with query parameters
     window.history.pushState(
       {},
       "",
       `${location.pathname}?${params.toString()}`
     );
-
-    setCopyLink(`${baseUrl}${location.pathname}?${params.toString()}`)
-   
-  }, [ userPrefernces]);
+  
+    setCopyLink(`${baseUrl}${location.pathname}?${params.toString()}`);
+  
+  }, [userPrefernces]);
+  
 
 
   //save userpreference

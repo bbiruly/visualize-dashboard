@@ -21,7 +21,6 @@ import {
 import { ChartConfig } from "@/components/ui/chart";
 import moment from "moment";
 import DummyChart from "./DummyChart";
-import { useSelector } from "react-redux";
 import { useChartSize } from "@/hooks/useChartSize";
 
 //COLOR THEME FOR GRAPH
@@ -77,18 +76,17 @@ const BarChartComponent: FC<SummaryProps> = ({ data }) => {
   const [lineChartData, setLineChartData] = useState<any[]>([]);
   const [chartData, setChartData] = useState<any[]>([]);
   //get filter prefrences
-  const filterData = useSelector((state) => state?.filter);
 
   //hook for resize the chart accordiing to mobile size
   const chartSize = useChartSize()
 
   //IT RENDER WHEN DATA UPDATE
   useEffect(() => {
-    if (data || filterData) {
+    if (data ) {
       const chartData = processChartData(data);
       setChartData(chartData);
     }
-  }, [data, filterData]);
+  }, [data]);
 
 //HANDLE BAR CLICK
   const handleBarClick = (value: any) => {
