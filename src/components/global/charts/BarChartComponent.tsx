@@ -19,7 +19,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ChartConfig } from "@/components/ui/chart";
-import { Dataset } from "@/types/types";
 import moment from "moment";
 import DummyChart from "./DummyChart";
 import { useSelector } from "react-redux";
@@ -41,12 +40,25 @@ interface SummaryProps {
   data: Dataset[];
 }
 
+
+// Define a type for Dataset
+type Dataset = {
+  Day: string;
+  [key: string]: number | string | undefined; // Adjust type based on your actual dataset
+};
+
+
+
 //PROCESS THE DATA FOR BAR CHART
 const processChartData = (data: Dataset[]) => {
-  const features: (keyof Dataset[0])[] = ["F", "E", "D", "C", "B", "A"];
+  const features: (keyof Dataset)[] = ["F", "E", "D", "C", "B", "A"];
   return features.map((feature) => ({
     feature,
-    value: data.reduce((acc, entry) => acc + (entry[feature] || 0), 0),
+    value: data.reduce((acc, entry) => {
+      const value = entry[feature];
+      // Ensure value is a number, fallback to 0 if not
+      return acc + (typeof value === 'number' ? value : 0);
+    }, 0),
   }));
 };
 
@@ -82,7 +94,7 @@ const BarChartComponent: FC<SummaryProps> = ({ data }) => {
   const handleBarClick = (value: any) => {
     if (value) {
       setSelectedFeature(value.feature);
-      const trendData = prepareLineChartData(data, value.feature); // Use raw data
+      const trendData = prepareLineChartData(data, value.feature); 
       setLineChartData(trendData);
     }
   };

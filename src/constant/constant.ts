@@ -3,7 +3,7 @@ import { TbUserSquare } from "react-icons/tb";
 import { IoSettingsOutline } from "react-icons/io5";
 
 //backend link 
-export const api = "http://localhost:4000/api"
+export const api = "https://visualize-dashboard.vercel.app"
 export const baseUrl = "http://localhost:5173/analytics";
 
 export const links = [
